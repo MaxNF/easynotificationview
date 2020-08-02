@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@android:color/darker_gray">
+    android:background="@android:color/darker_gray"
+    tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/show_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SHOW"
         android:onClick="show"
+        android:text="SHOW"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

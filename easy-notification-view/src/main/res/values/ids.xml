@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="bottom_notification_view" type="id" />
+    <item name="easy_notification_view" type="id" />
     <item name="bnv_overlay" type="id" />
     <item name="bnv_contents" type="id" />
     <item name="bnv_button1" type="id" />

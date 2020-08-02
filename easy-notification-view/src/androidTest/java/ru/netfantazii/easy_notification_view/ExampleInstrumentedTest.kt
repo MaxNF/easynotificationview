@@ -1,4 +1,4 @@
-package ru.netfantazii.bottom_notification_view
+package ru.netfantazii.easy_notification_view
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
