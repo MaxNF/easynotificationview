@@ -13,7 +13,7 @@ abstract class DisappearAnimator {
         overlay: View,
         contents: View,
         container: EasyNotificationView
-    ): AnimatorSet
+    ): Animator
 
     private var hiding = false
 

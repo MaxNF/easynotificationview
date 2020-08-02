@@ -1,5 +1,6 @@
-package ru.netfantazii.easy_notification_view.animation
+package ru.netfantazii.easy_notification_view.animation.bottomslide
 
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.View
@@ -20,7 +21,7 @@ class BottomSlideAppearAnimator(
 ) : AppearAnimator() {
 
     override fun setInitialState(overlay: View, contents: View, container: EasyNotificationView) {
-        container.visibility = View.INVISIBLE
+        overlay.alpha = 0f
         val set = ConstraintSet().apply { clone(container) }
         set.connect(
             R.id.bnv_contents,
@@ -35,7 +36,7 @@ class BottomSlideAppearAnimator(
         overlay: View,
         contents: View,
         container: EasyNotificationView
-    ): AnimatorSet {
+    ): Animator {
         val params = contents.layoutParams as ViewGroup.MarginLayoutParams
         val targetOffset = (contents.height + params.bottomMargin + params.topMargin)
         val contentsSlideInAnimator =

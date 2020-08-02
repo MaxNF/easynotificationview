@@ -1,12 +1,8 @@
 package ru.netfantazii.easy_notification_view
 
-import android.animation.Animator
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +10,7 @@ import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
-import com.daasuu.ei.Ease
-import com.daasuu.ei.EasingInterpolator
 import ru.netfantazii.easy_notification_view.animation.base.AppearAnimator
 import ru.netfantazii.easy_notification_view.animation.base.DisappearAnimator
 import java.lang.IllegalArgumentException
@@ -27,6 +20,7 @@ class EasyNotificationView(
     context: Context,
     @LayoutRes private val contentsLayout: Int,
     @ColorInt private val overlayColor: Int,
+    private val isOverlayClickable: Boolean,
     private val buttonsClickListener: ButtonsClickListener?,
     private val appearAnimator: AppearAnimator,
     private val disappearAnimator: DisappearAnimator
@@ -55,12 +49,14 @@ class EasyNotificationView(
         attachContents(context)
         assignChildViews()
         setListeners()
+        setInitialState()
     }
 
     private fun attachOverlay(context: Context) {
         overlay = FrameLayout(context).apply {
             id = R.id.bnv_overlay
             setBackgroundColor(overlayColor)
+            isClickable = isOverlayClickable
         }
         val params = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         addView(overlay, params)
@@ -88,7 +84,10 @@ class EasyNotificationView(
     }
 
     private fun setListeners() {
-        overlay.setOnClickListener { buttonsClickListener?.onOverlayClick() ?: hide() }
+        if (isOverlayClickable) {
+            overlay.setOnClickListener { buttonsClickListener?.onOverlayClick() ?: hide() }
+        }
+
         button1?.setOnClickListener { buttonsClickListener?.onButton1Click() ?: hide() }
         button2?.setOnClickListener { buttonsClickListener?.onButton2Click() ?: hide() }
         button3?.setOnClickListener { buttonsClickListener?.onButton3Click() ?: hide() }

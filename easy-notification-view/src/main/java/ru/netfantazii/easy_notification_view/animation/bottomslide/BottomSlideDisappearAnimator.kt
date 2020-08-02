@@ -1,4 +1,4 @@
-package ru.netfantazii.easy_notification_view.animation
+package ru.netfantazii.easy_notification_view.animation.bottomslide
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator

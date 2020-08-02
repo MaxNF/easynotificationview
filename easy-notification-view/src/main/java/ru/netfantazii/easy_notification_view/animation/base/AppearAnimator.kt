@@ -1,7 +1,6 @@
 package ru.netfantazii.easy_notification_view.animation.base
 
 import android.animation.Animator
-import android.animation.AnimatorSet
 import android.view.View
 import ru.netfantazii.easy_notification_view.EasyNotificationView
 
@@ -12,7 +11,7 @@ abstract class AppearAnimator {
         overlay: View,
         contents: View,
         container: EasyNotificationView
-    ): AnimatorSet
+    ): Animator
 
 
     /** Change here parameters as you want them to be in the beginning of the animation. For example
@@ -36,12 +35,6 @@ abstract class AppearAnimator {
 
     internal fun startAppearAnimation(easyNotificationView: EasyNotificationView) {
         if (!showing) {
-            setInitialState(
-                easyNotificationView.overlay,
-                easyNotificationView.contents,
-                easyNotificationView
-            )
-
             val animator = createAppearAnimator(
                 easyNotificationView.overlay,
                 easyNotificationView.contents,

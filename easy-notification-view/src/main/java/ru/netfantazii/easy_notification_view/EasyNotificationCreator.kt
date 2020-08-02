@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.annotation.ColorInt
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
-import ru.netfantazii.easy_notification_view.animation.BottomSlideAppearAnimator
-import ru.netfantazii.easy_notification_view.animation.BottomSlideDisappearAnimator
+import ru.netfantazii.easy_notification_view.animation.bottomslide.BottomSlideAppearAnimator
+import ru.netfantazii.easy_notification_view.animation.bottomslide.BottomSlideDisappearAnimator
 import ru.netfantazii.easy_notification_view.animation.base.AppearAnimator
 import ru.netfantazii.easy_notification_view.animation.base.DisappearAnimator
 
@@ -37,6 +37,7 @@ class EasyNotificationCreator(
                 context,
                 layoutResId,
                 overlayColor ?: ContextCompat.getColor(context, R.color.overlay_color),
+                isOverlayClickable,
                 listener,
                 appearAnimator ?: BottomSlideAppearAnimator(),
                 disappearAnimator ?: BottomSlideDisappearAnimator()
