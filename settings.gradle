@@ -1,0 +1,3 @@
+include ':bottom-notification-view'
+include ':app'
+rootProject.name = "Bottom Notification View Test"
