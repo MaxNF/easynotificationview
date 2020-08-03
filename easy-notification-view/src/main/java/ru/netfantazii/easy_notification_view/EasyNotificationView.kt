@@ -50,13 +50,13 @@ class EasyNotificationView(
 ) : ConstraintLayout(context) {
     companion object {
         @JvmOverloads
-        /** Creates EasyNotificationView instance.
-         * @param context Do not use application context if you are not going to explicitly specify
-         * root view in EasyNotificationView.show() method. In this case use activity of fragment
-         * context.
-         * @param overlayColor color of the background overlay view. Default is black with 70% opacity.
-         * @param appearAnimator animator which is capable of creating appear animation.
-         * @param disappearAnimator animator which is capable of creating disappear animation.*/
+                /** Creates EasyNotificationView instance.
+                 * @param context Do not use application context if you are not going to explicitly specify
+                 * root view in EasyNotificationView.show() method. In this case use activity of fragment
+                 * context.
+                 * @param overlayColor color of the background overlay view. Default is black with 70% opacity.
+                 * @param appearAnimator animator which is capable of creating appear animation.
+                 * @param disappearAnimator animator which is capable of creating disappear animation.*/
         fun create(
             context: Context,
             @LayoutRes layoutResId: Int,
@@ -91,16 +91,84 @@ class EasyNotificationView(
     private var button8: View? = null
     private var button9: View? = null
 
+    /** Defines is the overlay clickable or not. If false, it will propagate clicks to underlying views.
+     * Default is true. If the overlay listener is set, this behaves as "true" regardless of the actual value.*/
+    var isOverlayClickable = true
+        set(value) {
+            field = value
+            overlay.isClickable = value
+        }
+
     var onOverlayClickListener: (() -> Unit)? = null
-    var onButton1ClickListener: (() -> Unit)? = null
-    var onButton2ClickListener: (() -> Unit)? = null
-    var onButton3ClickListener: (() -> Unit)? = null
-    var onButton4ClickListener: (() -> Unit)? = null
-    var onButton5ClickListener: (() -> Unit)? = null
-    var onButton6ClickListener: (() -> Unit)? = null
-    var onButton7ClickListener: (() -> Unit)? = null
-    var onButton8ClickListener: (() -> Unit)? = null
-    var onButton9ClickListener: (() -> Unit)? = null
+        set(value) {
+            field = value
+            value?.let { action ->
+                overlay.setOnClickListener { action() }
+            }
+        }
+
+    /** Defines env_button1 click behavior. Default is hide()*/
+    var onButton1ClickListener: (() -> Unit)? = ::defaultOnEveryButtonClickBehavior
+        set(value) {
+            field = value
+            button1?.setOnClickListener { value?.invoke() }
+        }
+
+    /** Defines env_button2 click behavior. Default is hide()*/
+    var onButton2ClickListener: (() -> Unit)? = ::defaultOnEveryButtonClickBehavior
+        set(value) {
+            field = value
+            button2?.setOnClickListener { value?.invoke() }
+        }
+
+    /** Defines env_button3 click behavior. Default is hide()*/
+    var onButton3ClickListener: (() -> Unit)? = ::defaultOnEveryButtonClickBehavior
+        set(value) {
+            field = value
+            button3?.setOnClickListener { value?.invoke() }
+        }
+
+    /** Defines env_button4 click behavior. Default is hide()*/
+    var onButton4ClickListener: (() -> Unit)? = ::defaultOnEveryButtonClickBehavior
+        set(value) {
+            field = value
+            button4?.setOnClickListener { value?.invoke() }
+        }
+
+    /** Defines env_button5 click behavior. Default is hide()*/
+    var onButton5ClickListener: (() -> Unit)? = ::defaultOnEveryButtonClickBehavior
+        set(value) {
+            field = value
+            button5?.setOnClickListener { value?.invoke() }
+        }
+
+    /** Defines env_button6 click behavior. Default is hide()*/
+    var onButton6ClickListener: (() -> Unit)? = ::defaultOnEveryButtonClickBehavior
+        set(value) {
+            field = value
+            button6?.setOnClickListener { value?.invoke() }
+        }
+
+    /** Defines env_button7 click behavior. Default is hide()*/
+    var onButton7ClickListener: (() -> Unit)? = ::defaultOnEveryButtonClickBehavior
+        set(value) {
+            field = value
+            button7?.setOnClickListener { value?.invoke() }
+        }
+
+    /** Defines env_button8 click behavior. Default is hide()*/
+    var onButton8ClickListener: (() -> Unit)? = ::defaultOnEveryButtonClickBehavior
+        set(value) {
+            field = value
+            button8?.setOnClickListener { value?.invoke() }
+        }
+
+    /** Defines env_button9 click behavior. Default is hide()*/
+    var onButton9ClickListener: (() -> Unit)? = ::defaultOnEveryButtonClickBehavior
+        set(value) {
+            field = value
+            button9?.setOnClickListener { value?.invoke() }
+        }
 
     init {
         inflate(context)
@@ -110,7 +178,7 @@ class EasyNotificationView(
         attachOverlay(context)
         attachContents(context)
         assignChildViews()
-        setListeners()
+        setDefaultButtonListeners()
         setInitialState()
     }
 
@@ -118,6 +186,7 @@ class EasyNotificationView(
         overlay = FrameLayout(context).apply {
             id = R.id.env_overlay
             setBackgroundColor(overlayColor)
+            isClickable = isOverlayClickable
         }
         val params = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         addView(overlay, params)
@@ -144,17 +213,20 @@ class EasyNotificationView(
         button9 = findViewById(R.id.env_button9)
     }
 
-    private fun setListeners() {
-        overlay.setOnClickListener { onOverlayClickListener?.invoke() ?: hide() }
-        button1?.setOnClickListener { onButton1ClickListener?.invoke() ?: hide() }
-        button2?.setOnClickListener { onButton2ClickListener?.invoke() ?: hide() }
-        button3?.setOnClickListener { onButton3ClickListener?.invoke() ?: hide() }
-        button4?.setOnClickListener { onButton4ClickListener?.invoke() ?: hide() }
-        button5?.setOnClickListener { onButton5ClickListener?.invoke() ?: hide() }
-        button6?.setOnClickListener { onButton6ClickListener?.invoke() ?: hide() }
-        button7?.setOnClickListener { onButton7ClickListener?.invoke() ?: hide() }
-        button8?.setOnClickListener { onButton8ClickListener?.invoke() ?: hide() }
-        button9?.setOnClickListener { onButton9ClickListener?.invoke() ?: hide() }
+    private fun setDefaultButtonListeners() {
+        button1?.setOnClickListener { onButton1ClickListener?.invoke() }
+        button2?.setOnClickListener { onButton2ClickListener?.invoke() }
+        button3?.setOnClickListener { onButton3ClickListener?.invoke() }
+        button4?.setOnClickListener { onButton4ClickListener?.invoke() }
+        button5?.setOnClickListener { onButton5ClickListener?.invoke() }
+        button6?.setOnClickListener { onButton6ClickListener?.invoke() }
+        button7?.setOnClickListener { onButton7ClickListener?.invoke() }
+        button8?.setOnClickListener { onButton8ClickListener?.invoke() }
+        button9?.setOnClickListener { onButton9ClickListener?.invoke() }
+    }
+
+    private fun defaultOnEveryButtonClickBehavior() {
+        hide()
     }
 
     private fun setInitialState() {

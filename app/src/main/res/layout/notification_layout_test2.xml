@@ -6,35 +6,96 @@
     android:layout_margin="16dp"
     android:background="#C6000000">
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/test_buttons"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:text="simple text что угодно"
-        android:textColor="#C8C8C8"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/env_button1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/env_button1"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginEnd="16dp"
         android:gravity="center"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:text="button"
-        android:textColor="#DA3939"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/text"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/env_button1"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="button1"
+            android:textColor="#DA3939" />
+
+        <TextView
+            android:id="@+id/env_button2"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="button2"
+            android:textColor="#DA3939" />
+
+        <TextView
+            android:id="@+id/env_button3"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="button3"
+            android:textColor="#DA3939" />
+
+        <TextView
+            android:id="@+id/env_button4"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="button4"
+            android:textColor="#DA3939" />
+
+        <TextView
+            android:id="@+id/env_button5"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="button5"
+            android:textColor="#DA3939" />
+
+        <TextView
+            android:id="@+id/env_button6"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="button6"
+            android:textColor="#DA3939" />
+
+        <TextView
+            android:id="@+id/env_button7"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="button7"
+            android:textColor="#DA3939" />
+
+        <TextView
+            android:id="@+id/env_button8"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="button8"
+            android:textColor="#DA3939" />
+
+        <TextView
+            android:id="@+id/env_button9"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="button9"
+            android:textColor="#DA3939" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
