@@ -37,13 +37,23 @@ class BottomSlideDisappearAnimator(
     private val durationMillis: Long = 300,
     private val interpolator: EasingInterpolator = EasingInterpolator(Ease.CIRC_IN)
 ) : DisappearAnimator() {
+    private var originalContentsY = 0f
+    private var originalOverlayAlpha = 0f
+
+    override fun resetState(overlay: View, contents: View, container: EasyNotificationView) {
+        contents.y = originalContentsY
+        overlay.alpha = originalOverlayAlpha
+    }
+
     override fun createDisappearAnimator(
         overlay: View,
         contents: View,
         container: EasyNotificationView
     ): AnimatorSet {
+        originalContentsY = contents.y
+        originalOverlayAlpha = overlay.alpha
         val contentsSlideInAnimator =
-            ObjectAnimator.ofFloat(contents, "translationY", 0f)
+            ObjectAnimator.ofFloat(contents, "y", container.height.toFloat())
                 .apply {
                     duration = durationMillis
                     interpolator = this@BottomSlideDisappearAnimator.interpolator

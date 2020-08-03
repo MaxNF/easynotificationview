@@ -34,11 +34,18 @@ class FadeOutDisappearAnimator(
     private val durationMillis: Long = 300,
     private val interpolator: EasingInterpolator = EasingInterpolator(Ease.LINEAR)
 ) : DisappearAnimator() {
+    private var originalAlpha: Float = 1f
+
+    override fun resetState(overlay: View, contents: View, container: EasyNotificationView) {
+        container.alpha = originalAlpha
+    }
+
     override fun createDisappearAnimator(
         overlay: View,
         contents: View,
         container: EasyNotificationView
     ): Animator {
+        originalAlpha = container.alpha
         return ObjectAnimator.ofFloat(container, "alpha", 0f).apply {
             duration = durationMillis
             interpolator = this@FadeOutDisappearAnimator.interpolator

@@ -32,9 +32,12 @@ import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import ru.netfantazii.easy_notification_view.animation.base.AppearAnimator
 import ru.netfantazii.easy_notification_view.animation.base.DisappearAnimator
+import ru.netfantazii.easy_notification_view.animation.bottomslide.BottomSlideAppearAnimator
+import ru.netfantazii.easy_notification_view.animation.bottomslide.BottomSlideDisappearAnimator
 import java.lang.IllegalArgumentException
 
 @SuppressLint("ViewConstructor")
@@ -42,11 +45,37 @@ class EasyNotificationView(
     context: Context,
     @LayoutRes private val contentsLayout: Int,
     @ColorInt private val overlayColor: Int,
-    private val isOverlayClickable: Boolean,
-    private val buttonsClickListener: ButtonsClickListener?,
     private val appearAnimator: AppearAnimator,
     private val disappearAnimator: DisappearAnimator
 ) : ConstraintLayout(context) {
+    companion object {
+        @JvmOverloads
+        /** Creates EasyNotificationView instance.
+         * @param context Do not use application context if you are not going to explicitly specify
+         * root view in EasyNotificationView.show() method. In this case use activity of fragment
+         * context.
+         * @param overlayColor color of the background overlay view. Default is black with 70% opacity.
+         * @param appearAnimator animator which is capable of creating appear animation.
+         * @param disappearAnimator animator which is capable of creating disappear animation.*/
+        fun create(
+            context: Context,
+            @LayoutRes layoutResId: Int,
+            @ColorInt overlayColor: Int? = null,
+            appearAnimator: AppearAnimator? = null,
+            disappearAnimator: DisappearAnimator? = null
+        ): EasyNotificationView {
+            val easyNotificationView =
+                EasyNotificationView(
+                    context,
+                    layoutResId,
+                    overlayColor ?: ContextCompat.getColor(context, R.color.overlay_color),
+                    appearAnimator ?: BottomSlideAppearAnimator(),
+                    disappearAnimator ?: BottomSlideDisappearAnimator()
+                )
+            easyNotificationView.id = R.id.easy_notification_view
+            return easyNotificationView
+        }
+    }
 
     internal var container: ViewGroup? = null
     internal lateinit var overlay: FrameLayout
@@ -61,6 +90,17 @@ class EasyNotificationView(
     private var button7: View? = null
     private var button8: View? = null
     private var button9: View? = null
+
+    var onOverlayClickListener: (() -> Unit)? = null
+    var onButton1ClickListener: (() -> Unit)? = null
+    var onButton2ClickListener: (() -> Unit)? = null
+    var onButton3ClickListener: (() -> Unit)? = null
+    var onButton4ClickListener: (() -> Unit)? = null
+    var onButton5ClickListener: (() -> Unit)? = null
+    var onButton6ClickListener: (() -> Unit)? = null
+    var onButton7ClickListener: (() -> Unit)? = null
+    var onButton8ClickListener: (() -> Unit)? = null
+    var onButton9ClickListener: (() -> Unit)? = null
 
     init {
         inflate(context)
@@ -78,7 +118,6 @@ class EasyNotificationView(
         overlay = FrameLayout(context).apply {
             id = R.id.env_overlay
             setBackgroundColor(overlayColor)
-            isClickable = isOverlayClickable
         }
         val params = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         addView(overlay, params)
@@ -106,24 +145,20 @@ class EasyNotificationView(
     }
 
     private fun setListeners() {
-        if (isOverlayClickable) {
-            overlay.setOnClickListener { buttonsClickListener?.onOverlayClick() ?: hide() }
-        }
-
-        button1?.setOnClickListener { buttonsClickListener?.onButton1Click() ?: hide() }
-        button2?.setOnClickListener { buttonsClickListener?.onButton2Click() ?: hide() }
-        button3?.setOnClickListener { buttonsClickListener?.onButton3Click() ?: hide() }
-        button4?.setOnClickListener { buttonsClickListener?.onButton4Click() ?: hide() }
-        button5?.setOnClickListener { buttonsClickListener?.onButton5Click() ?: hide() }
-        button6?.setOnClickListener { buttonsClickListener?.onButton6Click() ?: hide() }
-        button7?.setOnClickListener { buttonsClickListener?.onButton7Click() ?: hide() }
-        button8?.setOnClickListener { buttonsClickListener?.onButton8Click() ?: hide() }
-        button9?.setOnClickListener { buttonsClickListener?.onButton9Click() ?: hide() }
+        overlay.setOnClickListener { onOverlayClickListener?.invoke() ?: hide() }
+        button1?.setOnClickListener { onButton1ClickListener?.invoke() ?: hide() }
+        button2?.setOnClickListener { onButton2ClickListener?.invoke() ?: hide() }
+        button3?.setOnClickListener { onButton3ClickListener?.invoke() ?: hide() }
+        button4?.setOnClickListener { onButton4ClickListener?.invoke() ?: hide() }
+        button5?.setOnClickListener { onButton5ClickListener?.invoke() ?: hide() }
+        button6?.setOnClickListener { onButton6ClickListener?.invoke() ?: hide() }
+        button7?.setOnClickListener { onButton7ClickListener?.invoke() ?: hide() }
+        button8?.setOnClickListener { onButton8ClickListener?.invoke() ?: hide() }
+        button9?.setOnClickListener { onButton9ClickListener?.invoke() ?: hide() }
     }
 
     private fun setInitialState() {
         visibility = View.INVISIBLE
-        appearAnimator.applyInitialState(this)
     }
 
     /** Attaches the notification view to the specified container or to the context's root ViewGroup
@@ -150,7 +185,7 @@ class EasyNotificationView(
             is Activity -> {
                 attachedContext.findViewById(android.R.id.content)
             }
-            else -> throw IllegalArgumentException("Please specify the container view or provide EasyNotificationCreator with valid context (should be either a Fragment or an Activity)")
+            else -> throw IllegalArgumentException("Please specify the container view or provide EasyNotification.create() method with a valid context (should be either a Fragment or an Activity)")
         }
     }
 
@@ -159,18 +194,5 @@ class EasyNotificationView(
         post {
             disappearAnimator.startDisappearAnimation(this)
         }
-    }
-
-    abstract class ButtonsClickListener {
-        open fun onOverlayClick() {}
-        open fun onButton1Click() {}
-        open fun onButton2Click() {}
-        open fun onButton3Click() {}
-        open fun onButton4Click() {}
-        open fun onButton5Click() {}
-        open fun onButton6Click() {}
-        open fun onButton7Click() {}
-        open fun onButton8Click() {}
-        open fun onButton9Click() {}
     }
 }

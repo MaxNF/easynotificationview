@@ -27,14 +27,21 @@ import android.view.View
 import ru.netfantazii.easy_notification_view.EasyNotificationView
 
 abstract class DisappearAnimator {
+    private var hiding = false
+
+    /** Function responsible for creating disappear animation.*/
     protected abstract fun createDisappearAnimator(
         overlay: View,
         contents: View,
         container: EasyNotificationView
     ): Animator
 
-    private var hiding = false
-
+    /** Apply here the desirable state of the views after the animation ends.*/
+    protected abstract fun resetState(
+        overlay: View,
+        contents: View,
+        container: EasyNotificationView
+    )
 
     internal fun startDisappearAnimation(easyNotificationView: EasyNotificationView) {
         if (!hiding) {
@@ -47,12 +54,14 @@ abstract class DisappearAnimator {
                 override fun onAnimationEnd(animation: Animator) {
                     easyNotificationView.visibility = View.INVISIBLE
                     hiding = false
+                    resetNotificationState(easyNotificationView)
                     removeViewFromContainer(easyNotificationView)
                 }
 
                 override fun onAnimationRepeat(animation: Animator) {}
                 override fun onAnimationCancel(animation: Animator) {
                     hiding = false
+                    resetNotificationState(easyNotificationView)
                     removeViewFromContainer(easyNotificationView)
                 }
 
@@ -62,6 +71,14 @@ abstract class DisappearAnimator {
             })
             animator.start()
         }
+    }
+
+    private fun resetNotificationState(easyNotificationView: EasyNotificationView) {
+        resetState(
+            easyNotificationView.overlay,
+            easyNotificationView.contents,
+            easyNotificationView
+        )
     }
 
     private fun removeViewFromContainer(easyNotificationView: EasyNotificationView) {

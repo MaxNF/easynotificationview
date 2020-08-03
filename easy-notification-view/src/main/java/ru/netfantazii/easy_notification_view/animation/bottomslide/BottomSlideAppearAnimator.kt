@@ -62,7 +62,7 @@ class BottomSlideAppearAnimator(
         val params = contents.layoutParams as ViewGroup.MarginLayoutParams
         val targetOffset = (contents.height + params.bottomMargin + params.topMargin)
         val contentsSlideInAnimator =
-            ObjectAnimator.ofFloat(contents, "translationY", -targetOffset.toFloat())
+            ObjectAnimator.ofFloat(contents, "translationY", 0f, -targetOffset.toFloat())
                 .apply {
                     duration = durationMillis
                     interpolator = this@BottomSlideAppearAnimator.interpolator

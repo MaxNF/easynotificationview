@@ -47,16 +47,15 @@ abstract class AppearAnimator {
         container: EasyNotificationView
     )
 
-    internal fun applyInitialState(easyNotificationView: EasyNotificationView) {
-        setInitialState(
-            easyNotificationView.overlay,
-            easyNotificationView.contents,
-            easyNotificationView
-        )
-    }
-
+    /** Function responsible for creating appear animation.*/
     internal fun startAppearAnimation(easyNotificationView: EasyNotificationView) {
         if (!showing) {
+            setInitialState(
+                easyNotificationView.overlay,
+                easyNotificationView.contents,
+                easyNotificationView
+            )
+
             val animator = createAppearAnimator(
                 easyNotificationView.overlay,
                 easyNotificationView.contents,
