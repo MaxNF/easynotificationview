@@ -76,7 +76,7 @@ class EasyNotificationView(
 
     private fun attachOverlay(context: Context) {
         overlay = FrameLayout(context).apply {
-            id = R.id.bnv_overlay
+            id = R.id.env_overlay
             setBackgroundColor(overlayColor)
             isClickable = isOverlayClickable
         }
@@ -87,22 +87,22 @@ class EasyNotificationView(
     private fun attachContents(context: Context) {
         val inflater = LayoutInflater.from(context)
         contents = inflater.inflate(this.contentsLayout, this, false).apply {
-            id = R.id.bnv_contents
+            id = R.id.env_contents
             isClickable = true
         }
         addView(contents)
     }
 
     private fun assignChildViews() {
-        button1 = findViewById(R.id.bnv_button1)
-        button2 = findViewById(R.id.bnv_button2)
-        button3 = findViewById(R.id.bnv_button3)
-        button4 = findViewById(R.id.bnv_button4)
-        button5 = findViewById(R.id.bnv_button5)
-        button6 = findViewById(R.id.bnv_button6)
-        button7 = findViewById(R.id.bnv_button7)
-        button8 = findViewById(R.id.bnv_button8)
-        button9 = findViewById(R.id.bnv_button9)
+        button1 = findViewById(R.id.env_button1)
+        button2 = findViewById(R.id.env_button2)
+        button3 = findViewById(R.id.env_button3)
+        button4 = findViewById(R.id.env_button4)
+        button5 = findViewById(R.id.env_button5)
+        button6 = findViewById(R.id.env_button6)
+        button7 = findViewById(R.id.env_button7)
+        button8 = findViewById(R.id.env_button8)
+        button9 = findViewById(R.id.env_button9)
     }
 
     private fun setListeners() {

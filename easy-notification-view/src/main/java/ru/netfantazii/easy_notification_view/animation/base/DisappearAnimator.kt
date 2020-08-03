@@ -23,12 +23,8 @@ SOFTWARE.*/
 package ru.netfantazii.easy_notification_view.animation.base
 
 import android.animation.Animator
-import android.animation.AnimatorSet
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import ru.netfantazii.easy_notification_view.EasyNotificationView
-import ru.netfantazii.easy_notification_view.R
 
 abstract class DisappearAnimator {
     protected abstract fun createDisappearAnimator(

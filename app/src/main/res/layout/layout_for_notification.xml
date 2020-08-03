@@ -11,7 +11,7 @@
     android:background="@android:color/white">
 
     <TextView
-        android:id="@+id/bnv_button1"
+        android:id="@+id/env_button1"
         android:text="Закрыть"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
         android:textAlignment="center" />
 
     <Button
-        android:id="@+id/bnv_button2"
+        android:id="@+id/env_button2"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:text="Перейти"
         android:layout_width="match_parent"
@@ -63,7 +63,7 @@
         android:textSize="17sp" />
 
     <Button
-        android:id="@+id/bnv_button3"
+        android:id="@+id/env_button3"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:text="Не напоминать"
         android:layout_width="match_parent"

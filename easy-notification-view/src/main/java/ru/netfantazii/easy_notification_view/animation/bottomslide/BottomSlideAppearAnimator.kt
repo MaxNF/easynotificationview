@@ -46,7 +46,7 @@ class BottomSlideAppearAnimator(
         overlay.alpha = 0f
         val set = ConstraintSet().apply { clone(container) }
         set.connect(
-            R.id.bnv_contents,
+            R.id.env_contents,
             ConstraintSet.TOP,
             R.id.easy_notification_view,
             ConstraintSet.BOTTOM
