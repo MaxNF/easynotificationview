@@ -7,7 +7,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "ru.netfantazii.bottomnotificationviewtest"
+        applicationId "ru.netfantazii.easynotificationviewtest"
         minSdkVersion 18
         targetSdkVersion 29
         versionCode 1

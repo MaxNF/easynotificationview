@@ -1,4 +1,4 @@
-package ru.netfantazii.bottomnotificationviewtest
+package ru.netfantazii.easynotificationviewtest
 
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity

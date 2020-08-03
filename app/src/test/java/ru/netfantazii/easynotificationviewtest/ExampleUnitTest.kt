@@ -1,4 +1,4 @@
-package ru.netfantazii.bottomnotificationviewtest
+package ru.netfantazii.easynotificationviewtest
 
 import org.junit.Test
 
