@@ -162,15 +162,15 @@ class EasyNotificationView(
     }
 
     abstract class ButtonsClickListener {
-        fun onOverlayClick() {}
-        fun onButton1Click() {}
-        fun onButton2Click() {}
-        fun onButton3Click() {}
-        fun onButton4Click() {}
-        fun onButton5Click() {}
-        fun onButton6Click() {}
-        fun onButton7Click() {}
-        fun onButton8Click() {}
-        fun onButton9Click() {}
+        open fun onOverlayClick() {}
+        open fun onButton1Click() {}
+        open fun onButton2Click() {}
+        open fun onButton3Click() {}
+        open fun onButton4Click() {}
+        open fun onButton5Click() {}
+        open fun onButton6Click() {}
+        open fun onButton7Click() {}
+        open fun onButton8Click() {}
+        open fun onButton9Click() {}
     }
 }
