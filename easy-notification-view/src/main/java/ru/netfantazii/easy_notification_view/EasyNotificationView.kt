@@ -235,6 +235,7 @@ class EasyNotificationView(
 
     /** Attaches the notification view to the specified container or to the context's root ViewGroup
      * (if the container is not specified) and shows the notification.*/
+    @JvmOverloads
     fun show(containerForNotification: ViewGroup? = null) {
         container = containerForNotification ?: getContainerView()
         val params =
