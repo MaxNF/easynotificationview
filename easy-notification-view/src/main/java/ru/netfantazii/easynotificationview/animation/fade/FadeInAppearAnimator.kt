@@ -20,35 +20,37 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 
-package ru.netfantazii.easy_notification_view.animation.fade
+package ru.netfantazii.easynotificationview.animation.fade
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.view.View
 import com.daasuu.ei.Ease
 import com.daasuu.ei.EasingInterpolator
-import ru.netfantazii.easy_notification_view.EasyNotificationView
-import ru.netfantazii.easy_notification_view.animation.base.DisappearAnimator
+import ru.netfantazii.easynotificationview.EasyNotificationView
+import ru.netfantazii.easynotificationview.animation.base.AppearAnimator
 
-class FadeOutDisappearAnimator(
+class FadeInAppearAnimator(
     private val durationMillis: Long = 300,
     private val interpolator: EasingInterpolator = EasingInterpolator(Ease.LINEAR)
-) : DisappearAnimator() {
-    private var originalAlpha: Float = 1f
-
-    override fun resetState(overlay: View, contents: View, container: EasyNotificationView) {
-        container.alpha = originalAlpha
+) : AppearAnimator() {
+    override fun setInitialState(
+        overlay: View,
+        contents: View,
+        container: EasyNotificationView
+    ) {
+        container.alpha = 0f
     }
 
-    override fun createDisappearAnimator(
+    override fun createAppearAnimator(
         overlay: View,
         contents: View,
         container: EasyNotificationView
     ): Animator {
-        originalAlpha = container.alpha
-        return ObjectAnimator.ofFloat(container, "alpha", 0f).apply {
+        return ObjectAnimator.ofFloat(container, "alpha", 1f).apply {
             duration = durationMillis
-            interpolator = this@FadeOutDisappearAnimator.interpolator
+            interpolator = this@FadeInAppearAnimator.interpolator
         }
     }
+
 }

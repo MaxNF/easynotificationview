@@ -20,63 +20,68 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 
-package ru.netfantazii.easy_notification_view.animation.base
+package ru.netfantazii.easynotificationview.animation.base
 
 import android.animation.Animator
 import android.view.View
-import ru.netfantazii.easy_notification_view.EasyNotificationView
+import ru.netfantazii.easynotificationview.EasyNotificationView
 
-abstract class AppearAnimator {
+abstract class DisappearAnimator {
+    private var hiding = false
 
-    private var showing = false
-    protected abstract fun createAppearAnimator(
+    /** Function responsible for creating disappear animation.*/
+    protected abstract fun createDisappearAnimator(
         overlay: View,
         contents: View,
         container: EasyNotificationView
     ): Animator
 
-
-    /** Change here parameters as you want them to be in the beginning of the animation. For example
-     *  you can make some views invisible, change their alpha, position coordinates or layout
-     *  parameters. EasyNotificationView inherits ConstraintLayout, so you can control any positions
-     *  of the child views as you wish. By default EasyNotificationView becomes invisible after it's
-     *  creation, but you can change it here.*/
-    protected abstract fun setInitialState(
+    /** Apply here the desirable state of the views after the animation ends.*/
+    protected abstract fun resetState(
         overlay: View,
         contents: View,
         container: EasyNotificationView
     )
 
-    /** Function responsible for creating appear animation.*/
-    internal fun startAppearAnimation(easyNotificationView: EasyNotificationView) {
-        if (!showing) {
-            setInitialState(
-                easyNotificationView.overlay,
-                easyNotificationView.contents,
-                easyNotificationView
-            )
-
-            val animator = createAppearAnimator(
+    internal fun startDisappearAnimation(easyNotificationView: EasyNotificationView) {
+        if (!hiding) {
+            val animator = createDisappearAnimator(
                 easyNotificationView.overlay,
                 easyNotificationView.contents,
                 easyNotificationView
             )
             animator.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationEnd(animation: Animator) {
-                    showing = false
+                    easyNotificationView.visibility = View.INVISIBLE
+                    hiding = false
+                    resetNotificationState(easyNotificationView)
+                    removeViewFromContainer(easyNotificationView)
                 }
 
                 override fun onAnimationRepeat(animation: Animator) {}
                 override fun onAnimationCancel(animation: Animator) {
-                    showing = false
+                    hiding = false
+                    resetNotificationState(easyNotificationView)
+                    removeViewFromContainer(easyNotificationView)
                 }
 
                 override fun onAnimationStart(animation: Animator) {
-                    easyNotificationView.visibility = View.VISIBLE
-                    showing = true
+                    hiding = true
                 }
             })
             animator.start()
         }
+    }
+
+    private fun resetNotificationState(easyNotificationView: EasyNotificationView) {
+        resetState(
+            easyNotificationView.overlay,
+            easyNotificationView.contents,
+            easyNotificationView
+        )
+    }
+
+    private fun removeViewFromContainer(easyNotificationView: EasyNotificationView) {
+        easyNotificationView.container?.removeView(easyNotificationView)
     }
 }

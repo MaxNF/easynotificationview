@@ -23,13 +23,16 @@
 
         <TextView
             android:id="@+id/env_button1"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:text="button1"
-            android:textColor="#DA5353" />
+            android:text="Sample button 1" />
+
+        <TextView
+            android:id="@+id/env_button2"
+            android:text="Sample button 2" />
+
+        <TextView
+            android:id="@+id/env_button9"
+            android:text="Sample button 9" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

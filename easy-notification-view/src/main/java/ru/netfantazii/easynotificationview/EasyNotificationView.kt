@@ -20,7 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 
-package ru.netfantazii.easy_notification_view
+package ru.netfantazii.easynotificationview
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -34,10 +34,10 @@ import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import ru.netfantazii.easy_notification_view.animation.base.AppearAnimator
-import ru.netfantazii.easy_notification_view.animation.base.DisappearAnimator
-import ru.netfantazii.easy_notification_view.animation.bottomslide.BottomSlideAppearAnimator
-import ru.netfantazii.easy_notification_view.animation.bottomslide.BottomSlideDisappearAnimator
+import ru.netfantazii.easynotificationview.animation.base.AppearAnimator
+import ru.netfantazii.easynotificationview.animation.base.DisappearAnimator
+import ru.netfantazii.easynotificationview.animation.bottomslide.BottomSlideAppearAnimator
+import ru.netfantazii.easynotificationview.animation.bottomslide.BottomSlideDisappearAnimator
 import java.lang.IllegalArgumentException
 
 @SuppressLint("ViewConstructor")

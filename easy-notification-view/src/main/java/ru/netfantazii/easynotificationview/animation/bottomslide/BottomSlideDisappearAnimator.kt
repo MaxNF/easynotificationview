@@ -20,55 +20,46 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 
-package ru.netfantazii.easy_notification_view.animation.bottomslide
+package ru.netfantazii.easynotificationview.animation.bottomslide
 
-import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.View
-import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintSet
 import com.daasuu.ei.Ease
 import com.daasuu.ei.EasingInterpolator
-import ru.netfantazii.easy_notification_view.EasyNotificationView
-import ru.netfantazii.easy_notification_view.R
-import ru.netfantazii.easy_notification_view.animation.base.AppearAnimator
+import ru.netfantazii.easynotificationview.EasyNotificationView
+import ru.netfantazii.easynotificationview.animation.base.DisappearAnimator
 
-/** Plays slide in animation from the bottom of the container with given duration and interpolator.
+/** Plays slide out animation to the bottom of the container with given duration and interpolator.
  * @param durationMillis duration of the animation. Default is 300 millis
- * @param interpolator EasingInterpolator. Default is EasingInterpolator(Ease.CIRC_OUT)*/
-class BottomSlideAppearAnimator(
+ * @param interpolator EasingInterpolator. Default is EasingInterpolator(Ease.CIRC_IN)*/
+class BottomSlideDisappearAnimator(
     private val durationMillis: Long = 300,
-    private val interpolator: EasingInterpolator = EasingInterpolator(Ease.CIRC_OUT)
-) : AppearAnimator() {
+    private val interpolator: EasingInterpolator = EasingInterpolator(Ease.CIRC_IN)
+) : DisappearAnimator() {
+    private var originalContentsY = 0f
+    private var originalOverlayAlpha = 0f
 
-    override fun setInitialState(overlay: View, contents: View, container: EasyNotificationView) {
-        overlay.alpha = 0f
-        val set = ConstraintSet().apply { clone(container) }
-        set.connect(
-            R.id.env_contents,
-            ConstraintSet.TOP,
-            R.id.easy_notification_view,
-            ConstraintSet.BOTTOM
-        )
-        set.applyTo(container)
+    override fun resetState(overlay: View, contents: View, container: EasyNotificationView) {
+        contents.y = originalContentsY
+        overlay.alpha = originalOverlayAlpha
     }
 
-    override fun createAppearAnimator(
+    override fun createDisappearAnimator(
         overlay: View,
         contents: View,
         container: EasyNotificationView
-    ): Animator {
-        val params = contents.layoutParams as ViewGroup.MarginLayoutParams
-        val targetOffset = (contents.height + params.bottomMargin + params.topMargin)
+    ): AnimatorSet {
+        originalContentsY = contents.y
+        originalOverlayAlpha = overlay.alpha
         val contentsSlideInAnimator =
-            ObjectAnimator.ofFloat(contents, "translationY", 0f, -targetOffset.toFloat())
+            ObjectAnimator.ofFloat(contents, "y", container.height.toFloat())
                 .apply {
                     duration = durationMillis
-                    interpolator = this@BottomSlideAppearAnimator.interpolator
+                    interpolator = this@BottomSlideDisappearAnimator.interpolator
                 }
 
-        val backgroundAppearAnimator = ObjectAnimator.ofFloat(overlay, "alpha", 1f)
+        val backgroundAppearAnimator = ObjectAnimator.ofFloat(overlay, "alpha", 0f)
 
         return AnimatorSet().apply {
             playTogether(contentsSlideInAnimator, backgroundAppearAnimator)

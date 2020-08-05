@@ -1,4 +1,4 @@
-package ru.netfantazii.easy_notification_view
+package ru.netfantazii.easynotificationview
 
 import org.junit.Test
 
