@@ -1,4 +1,5 @@
 # easynotificationview
+
 This small kotlin library helps you to show fully customizable notifications in any part of your app without the need to write any boilerplate code.
 ```kotlin
 EasyNotificationView.create(this, R.layout.layout_for_notification).show()
@@ -6,6 +7,9 @@ EasyNotificationView.create(this, R.layout.layout_for_notification).show()
 In this case you will see smth like this:
 
 ![](sample-notification.gif)
+
+### Adding to the project
+soon I'll add this to the maven repository and post link here
 
 ### How to customize the notification layout?
 Just pass what layout you like to the create function.
