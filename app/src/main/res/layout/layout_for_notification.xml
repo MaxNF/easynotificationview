@@ -1,78 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/contents"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:orientation="vertical"
-    android:background="@android:color/white">
+    android:layout_margin="16dp"
+    android:background="#C6000000">
 
-    <TextView
-        android:id="@+id/env_button1"
-        android:text="Закрыть"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="15dp"
-        android:paddingTop="9dp"
-        android:paddingEnd="15dp"
-        android:paddingBottom="12dp"
-        android:textAllCaps="false"
-        android:textColor="@color/colorAccent"
-        android:textSize="17sp" />
-
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="23dp" />
-
-    <TextView
-        android:id="@+id/title"
-        android:text="Голосование"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="8dp"/>
-
-    <TextView
-        android:id="@+id/text"
-        android:text="На данный момент идет голосование в разделе общее собрание собственников"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="27dp"
-        android:layout_marginEnd="27dp"
-        android:layout_marginBottom="32dp"
-        android:lineSpacingExtra="4sp"
-        android:textAlignment="center" />
-
-    <Button
-        android:id="@+id/env_button2"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:text="Перейти"
+    <LinearLayout
+        android:id="@+id/test_buttons"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimary"
-        android:textSize="17sp" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/env_button3"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:text="Не напоминать"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
-        android:textAllCaps="false"
-        android:textColor="@color/colorAccent"
-        android:textSize="17sp" />
+        <TextView
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sample text"/>
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/env_button1"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="button1"
+            android:textColor="#DA5353" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

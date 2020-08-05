@@ -11,9 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sample text"/>
 
         <TextView
             android:id="@+id/env_button1"
@@ -21,81 +27,9 @@
             android:layout_height="40dp"
             android:layout_margin="5dp"
             android:gravity="center"
+            android:textStyle="bold"
             android:text="button1"
-            android:textColor="#DA3939" />
-
-        <TextView
-            android:id="@+id/env_button2"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:gravity="center"
-            android:text="button2"
-            android:textColor="#DA3939" />
-
-        <TextView
-            android:id="@+id/env_button3"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:gravity="center"
-            android:text="button3"
-            android:textColor="#DA3939" />
-
-        <TextView
-            android:id="@+id/env_button4"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:gravity="center"
-            android:text="button4"
-            android:textColor="#DA3939" />
-
-        <TextView
-            android:id="@+id/env_button5"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:gravity="center"
-            android:text="button5"
-            android:textColor="#DA3939" />
-
-        <TextView
-            android:id="@+id/env_button6"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:gravity="center"
-            android:text="button6"
-            android:textColor="#DA3939" />
-
-        <TextView
-            android:id="@+id/env_button7"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:gravity="center"
-            android:text="button7"
-            android:textColor="#DA3939" />
-
-        <TextView
-            android:id="@+id/env_button8"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:gravity="center"
-            android:text="button8"
-            android:textColor="#DA3939" />
-
-        <TextView
-            android:id="@+id/env_button9"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:gravity="center"
-            android:text="button9"
-            android:textColor="#DA3939" />
-
+            android:textColor="#DA5353" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
