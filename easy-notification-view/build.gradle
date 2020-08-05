@@ -55,7 +55,7 @@ ext {
     // Repository Link (For e.g. GitHub repo)
     siteUrl = 'https://github.com/MaxNF/easynotificationview'
     gitUrl = 'https://github.com/MaxNF/easynotificationview.git'
-    githubRepository= 'MaxNF/easynotificationview'
+    githubRepository = 'MaxNF/easynotificationview'
 
     // Developer Details
     developerId = 'netfantazii'
@@ -83,6 +83,7 @@ install {
                 name libraryName
                 description = libraryDescription
                 url siteUrl
+                version = libraryVersion
 
                 licenses {
                     license {
