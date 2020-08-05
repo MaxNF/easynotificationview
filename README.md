@@ -1,4 +1,5 @@
 # easynotificationview
+[ ![Download](https://api.bintray.com/packages/voobshenetfantazii/maven/EasyNotificationView/images/download.svg?version=0.1) ](https://bintray.com/voobshenetfantazii/maven/EasyNotificationView/0.1/link)
 
 This small kotlin library helps you to show fully customizable notifications in any part of your app without the need to write any boilerplate code.
 ```kotlin
