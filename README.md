@@ -84,3 +84,5 @@ Passing the transparent color and disabling overlay clickability will make the o
             isOverlayClickable = false
         }.show()
 ```
+### Under the hood behavior
+The notification view attaches itself to the container when you call the show() method. After the disappear animation finishes, the notification view automatically detaches itself from the root view.
