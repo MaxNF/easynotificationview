@@ -50,7 +50,7 @@ ext {
     libraryName = 'EasyNotificationView'
     artifact = 'EasyNotificationView'
     libraryDescription = 'Android library for easy and custimizable notifications.'
-    libraryVersion = version
+    libraryVersion = "0.1"
 
     // Repository Link (For e.g. GitHub repo)
     siteUrl = 'https://github.com/MaxNF/easynotificationview'
