@@ -10,17 +10,13 @@ In this case you will see smth like this:
 ![](sample-notification.gif)
 
 ### Adding to the project
-The library is not added to the Jcenter repository yet, but you can download it from Bintray. Add to the module build.gradle file the following code:
-```
-repositories {
-    maven {
-        url  "https://dl.bintray.com/voobshenetfantazii/maven"
-    }
-}
-```
-And to the dependencies section:
+Add to the dependencies section:
 ```
 implementation 'com.netfantazii:EasyNotificationView:0.1'
+```
+Make sure, that the project's build.gradle file has the following repositoriy specified (it is included in new android studio projects by default):
+```
+jcenter()
 ```
 
 ### How to customize the notification layout?
