@@ -1,4 +1,5 @@
 # easynotificationview
+[ ![Download](https://api.bintray.com/packages/voobshenetfantazii/maven/EasyNotificationView/images/download.svg?version=0.1) ](https://bintray.com/voobshenetfantazii/maven/EasyNotificationView/0.1/link)
 
 This small kotlin library helps you to show fully customizable notifications in any part of your app without the need to write any boilerplate code.
 ```kotlin
@@ -9,7 +10,14 @@ In this case you will see smth like this:
 ![](sample-notification.gif)
 
 ### Adding to the project
-soon I'll add this to the maven repository and post link here
+Add to the dependencies section:
+```
+implementation 'com.netfantazii:EasyNotificationView:0.1'
+```
+Make sure, that the project's build.gradle file has the following repositoriy specified (it is included in new android studio projects by default):
+```
+jcenter()
+```
 
 ### How to customize the notification layout?
 Just pass what layout you like to the create function.
