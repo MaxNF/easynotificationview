@@ -43,7 +43,10 @@ abstract class DisappearAnimator {
         container: EasyNotificationView
     )
 
-    internal fun startDisappearAnimation(easyNotificationView: EasyNotificationView) {
+    internal fun startDisappearAnimation(
+        easyNotificationView: EasyNotificationView,
+        skipAnimation: Boolean
+    ) {
         if (!hiding) {
             val animator = createDisappearAnimator(
                 easyNotificationView.overlay,
@@ -70,6 +73,9 @@ abstract class DisappearAnimator {
                 }
             })
             animator.start()
+            if (skipAnimation) {
+                animator.end()
+            }
         }
     }
 

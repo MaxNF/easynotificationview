@@ -236,7 +236,14 @@ class EasyNotificationView(
     /** Attaches the notification view to the specified container or to the context's root ViewGroup
      * (if the container is not specified) and shows the notification.*/
     @JvmOverloads
-    fun show(containerForNotification: ViewGroup? = null) {
+    fun show(containerForNotification: ViewGroup? = null, skipAnimation: Boolean = false) {
+        attachToContainer(containerForNotification)
+        post {
+            appearAnimator.startAppearAnimation(this, skipAnimation)
+        }
+    }
+
+    private fun attachToContainer(containerForNotification: ViewGroup? = null) {
         container = containerForNotification ?: getContainerView()
         val params =
             ViewGroup.LayoutParams(
@@ -244,9 +251,6 @@ class EasyNotificationView(
                 LayoutParams.MATCH_PARENT
             )
         container?.addView(this, params)
-        post {
-            appearAnimator.startAppearAnimation(this)
-        }
     }
 
     private fun getContainerView(): ViewGroup {
@@ -263,9 +267,10 @@ class EasyNotificationView(
     }
 
     /** Hides the notification and removes it's view from the parent container at the end of the animation.*/
-    fun hide() {
+    @JvmOverloads
+    fun hide(skipAnimation: Boolean = false) {
         post {
-            disappearAnimator.startDisappearAnimation(this)
+            disappearAnimator.startDisappearAnimation(this, skipAnimation)
         }
     }
 }

@@ -48,7 +48,10 @@ abstract class AppearAnimator {
     )
 
     /** Function responsible for creating appear animation.*/
-    internal fun startAppearAnimation(easyNotificationView: EasyNotificationView) {
+    internal fun startAppearAnimation(
+        easyNotificationView: EasyNotificationView,
+        skipAnimation: Boolean
+    ) {
         if (!showing) {
             setInitialState(
                 easyNotificationView.overlay,
@@ -77,6 +80,9 @@ abstract class AppearAnimator {
                 }
             })
             animator.start()
+            if (skipAnimation) {
+                animator.end()
+            }
         }
     }
 }

@@ -16,9 +16,17 @@ class MainActivity : AppCompatActivity() {
 
     fun show(view: View) {
 
-        EasyNotificationView.create(this, R.layout.layout_for_notification, Color.TRANSPARENT).apply {
-            isOverlayClickable = false
-        }.show()
+        EasyNotificationView.create(this, R.layout.layout_for_notification, Color.TRANSPARENT)
+            .apply {
+                isOverlayClickable = false
+            }.show()
+    }
+
+    fun showNoAnim(view: View) {
+        EasyNotificationView.create(this, R.layout.layout_for_notification, Color.TRANSPARENT)
+            .apply {
+                isOverlayClickable = false
+            }.show(skipAnimation = true)
     }
 
     fun check(view: View) {
