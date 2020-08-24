@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
         EasyNotificationView.create(this, R.layout.layout_for_notification, Color.TRANSPARENT)
             .apply {
                 isOverlayClickable = false
+                appearAnimationEndListener = { Log.d(TAG, "show: appear ends") }
+                disappearAnimationEndListener = { Log.d(TAG, "show: disappear ends") }
             }.show()
     }
 
@@ -26,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         EasyNotificationView.create(this, R.layout.layout_for_notification, Color.TRANSPARENT)
             .apply {
                 isOverlayClickable = false
+                appearAnimationEndListener = { Log.d(TAG, "showNoAnim: appear ends") }
+                disappearAnimationEndListener = { Log.d(TAG, "showNoAnim: disappear ends") }
             }.show(skipAnimation = true)
     }
 

@@ -45,7 +45,8 @@ abstract class DisappearAnimator {
 
     internal fun startDisappearAnimation(
         easyNotificationView: EasyNotificationView,
-        skipAnimation: Boolean
+        skipAnimation: Boolean,
+        disappearAnimationEndListener: ((easyNotificationView: EasyNotificationView) -> Unit)? = null
     ) {
         if (!hiding) {
             val animator = createDisappearAnimator(
@@ -59,6 +60,7 @@ abstract class DisappearAnimator {
                     hiding = false
                     resetNotificationState(easyNotificationView)
                     removeViewFromContainer(easyNotificationView)
+                    disappearAnimationEndListener?.invoke(easyNotificationView)
                 }
 
                 override fun onAnimationRepeat(animation: Animator) {}

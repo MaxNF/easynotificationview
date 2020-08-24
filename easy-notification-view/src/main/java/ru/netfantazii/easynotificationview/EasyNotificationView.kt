@@ -107,6 +107,10 @@ class EasyNotificationView(
             }
         }
 
+    var appearAnimationEndListener: ((easyNotificationView: EasyNotificationView) -> Unit)? = null
+
+    var disappearAnimationEndListener: ((easyNotificationView: EasyNotificationView) -> Unit)? = null
+
     /** Defines env_button1 click behavior. Default is hide()*/
     var onButton1ClickListener: (() -> Unit)? = ::defaultOnEveryButtonClickBehavior
         set(value) {
@@ -239,7 +243,7 @@ class EasyNotificationView(
     fun show(containerForNotification: ViewGroup? = null, skipAnimation: Boolean = false) {
         attachToContainer(containerForNotification)
         post {
-            appearAnimator.startAppearAnimation(this, skipAnimation)
+            appearAnimator.startAppearAnimation(this, skipAnimation, appearAnimationEndListener)
         }
     }
 
@@ -270,7 +274,7 @@ class EasyNotificationView(
     @JvmOverloads
     fun hide(skipAnimation: Boolean = false) {
         post {
-            disappearAnimator.startDisappearAnimation(this, skipAnimation)
+            disappearAnimator.startDisappearAnimation(this, skipAnimation, disappearAnimationEndListener)
         }
     }
 }

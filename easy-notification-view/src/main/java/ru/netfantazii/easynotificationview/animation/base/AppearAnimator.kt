@@ -50,7 +50,8 @@ abstract class AppearAnimator {
     /** Function responsible for creating appear animation.*/
     internal fun startAppearAnimation(
         easyNotificationView: EasyNotificationView,
-        skipAnimation: Boolean
+        skipAnimation: Boolean,
+        appearAnimationEndListener: ((easyNotificationView: EasyNotificationView) -> Unit)? = null
     ) {
         if (!showing) {
             setInitialState(
@@ -67,6 +68,7 @@ abstract class AppearAnimator {
             animator.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationEnd(animation: Animator) {
                     showing = false
+                    appearAnimationEndListener?.invoke(easyNotificationView)
                 }
 
                 override fun onAnimationRepeat(animation: Animator) {}
