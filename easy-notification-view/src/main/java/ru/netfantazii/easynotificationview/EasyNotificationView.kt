@@ -29,11 +29,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.ColorInt
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import ru.netfantazii.easynotificationview.animation.base.AppearAnimator
 import ru.netfantazii.easynotificationview.animation.base.DisappearAnimator
 import ru.netfantazii.easynotificationview.animation.bottomslide.BottomSlideAppearAnimator
@@ -91,6 +94,17 @@ class EasyNotificationView(
     private var button8: View? = null
     private var button9: View? = null
 
+    private var onBackPressedCallback: OnBackPressedCallback? =
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                hide()
+            }
+        }
+        set(value) {
+            field?.remove()
+            field = value
+        }
+
     /** Defines is the overlay clickable or not. If false, it will propagate clicks to underlying views.
      * Default is true. If the overlay listener is set, this behaves as "true" regardless of the actual value.*/
     var isOverlayClickable = true
@@ -109,7 +123,25 @@ class EasyNotificationView(
 
     var appearAnimationEndListener: ((easyNotificationView: EasyNotificationView) -> Unit)? = null
 
-    var disappearAnimationEndListener: ((easyNotificationView: EasyNotificationView) -> Unit)? = null
+    var disappearAnimationEndListener: ((easyNotificationView: EasyNotificationView) -> Unit)? =
+        null
+
+    /** Defines on back button press behavior while the notification is visible. Default is hide().
+     * This action invokes only if the parent activity is the AppCompatActivity class. If the context
+     * is the lifecycle owner it will be connected with this callback ([<a href=https://developer.android.com/guide/navigation/navigation-custom-back>more information here</a>]).
+     * If requirements are not met, you can override on back press behavior manually.
+     * To disable the callback pass null*/
+    fun setOnBackPressAction(action: (() -> Unit)?) {
+        if (action == null) {
+            onBackPressedCallback = null
+            return
+        }
+        onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                action.invoke()
+            }
+        }
+    }
 
     /** Defines env_button1 click behavior. Default is hide()*/
     var onButton1ClickListener: (() -> Unit)? = ::defaultOnEveryButtonClickBehavior
@@ -245,6 +277,7 @@ class EasyNotificationView(
         post {
             appearAnimator.startAppearAnimation(this, skipAnimation, appearAnimationEndListener)
         }
+        overrideBackButtonBehavior()
     }
 
     private fun attachToContainer(containerForNotification: ViewGroup? = null) {
@@ -257,14 +290,30 @@ class EasyNotificationView(
         container?.addView(this, params)
     }
 
-    private fun getContainerView(): ViewGroup {
+    private fun getContainerView(): ViewGroup =
+        getActivityFromContext().findViewById(android.R.id.content)
+
+    private fun overrideBackButtonBehavior() {
+        val activity = getActivityFromContext()
         val attachedContext = context
-        return when (attachedContext) {
+        onBackPressedCallback?.let { callback ->
+            if (activity is AppCompatActivity) {
+                if (attachedContext is LifecycleOwner) {
+                    activity.onBackPressedDispatcher.addCallback(attachedContext, callback)
+                } else {
+                    activity.onBackPressedDispatcher.addCallback(callback)
+                }
+            }
+        }
+    }
+
+    private fun getActivityFromContext(): Activity {
+        return when (val attachedContext = context) {
             is Fragment -> {
-                attachedContext.requireActivity().findViewById(android.R.id.content)
+                attachedContext.requireActivity()
             }
             is Activity -> {
-                attachedContext.findViewById(android.R.id.content)
+                attachedContext
             }
             else -> throw IllegalArgumentException("Please specify the container view or provide EasyNotification.create() method with a valid context (should be either a Fragment or an Activity)")
         }
@@ -274,7 +323,12 @@ class EasyNotificationView(
     @JvmOverloads
     fun hide(skipAnimation: Boolean = false) {
         post {
-            disappearAnimator.startDisappearAnimation(this, skipAnimation, disappearAnimationEndListener)
+            disappearAnimator.startDisappearAnimation(
+                this,
+                skipAnimation,
+                disappearAnimationEndListener
+            )
         }
+        onBackPressedCallback?.remove()
     }
 }

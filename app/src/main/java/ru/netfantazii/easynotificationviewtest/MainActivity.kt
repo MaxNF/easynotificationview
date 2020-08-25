@@ -21,6 +21,10 @@ class MainActivity : AppCompatActivity() {
                 isOverlayClickable = false
                 appearAnimationEndListener = { Log.d(TAG, "show: appear ends") }
                 disappearAnimationEndListener = { Log.d(TAG, "show: disappear ends") }
+                setOnBackPressAction {
+                    Log.d(TAG, "show: КНОПКА НАЗАД НАЖАТА")
+                    hide(true)
+                }
             }.show()
     }
 
