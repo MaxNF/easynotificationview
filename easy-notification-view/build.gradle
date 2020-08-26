@@ -11,8 +11,8 @@ android {
     defaultConfig {
         minSdkVersion 18
         targetSdkVersion 29
-        versionCode 3
-        versionName "0.3"
+        versionCode 4
+        versionName "0.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -50,7 +50,7 @@ ext {
     libraryName = 'EasyNotificationView'
     artifact = 'EasyNotificationView'
     libraryDescription = 'Android library for easy and custimizable notifications.'
-    libraryVersion = '0.3'
+    libraryVersion = '0.4'
 
     // Repository Link (For e.g. GitHub repo)
     siteUrl = 'https://github.com/MaxNF/easynotificationview'

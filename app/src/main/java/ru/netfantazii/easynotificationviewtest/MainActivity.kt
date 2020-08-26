@@ -1,11 +1,14 @@
 package ru.netfantazii.easynotificationviewtest
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import ru.netfantazii.easynotificationview.EasyNotificationView
+import ru.netfantazii.easynotificationview.animation.bottomslide.BottomSlideAppearAnimator
+import ru.netfantazii.easynotificationview.animation.bottomslide.BottomSlideDisappearAnimator
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
@@ -16,7 +19,13 @@ class MainActivity : AppCompatActivity() {
 
     fun show(view: View) {
 
-        EasyNotificationView.create(this, R.layout.layout_for_notification, Color.TRANSPARENT)
+        EasyNotificationView.create(
+            this,
+            R.layout.layout_for_notification,
+            Color.TRANSPARENT,
+            appearAnimator = BottomSlideAppearAnimator(5000),
+            disappearAnimator = BottomSlideDisappearAnimator(5000)
+        )
             .apply {
                 isOverlayClickable = false
                 appearAnimationEndListener = { Log.d(TAG, "show: appear ends") }
@@ -43,15 +52,26 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "check: $exists")
     }
 
-    fun onOverlayClickFunction() {
-
+    fun showAutoHide(view: View) {
+        EasyNotificationView.create(
+            this,
+            R.layout.layout_for_notification,
+            Color.TRANSPARENT,
+            disappearAnimator = BottomSlideDisappearAnimator(5000)
+        )
+            .apply {
+                isOverlayClickable = false
+                onButton1ClickListener = {
+                    openSecondActivity(null)
+                    hide()
+                }
+                appearAnimationEndListener = { Log.d(TAG, "showNoAnim: appear ends") }
+                disappearAnimationEndListener = { Log.d(TAG, "showNoAnim: disappear ends") }
+            }.showAutoHide(5000)
     }
 
-    fun greatFunction() {
-
-    }
-
-    fun anotherGreatFunction() {
-
+    fun openSecondActivity(view: View?) {
+        val intent = Intent(this, MainActivity2::class.java)
+        startActivity(intent)
     }
 }

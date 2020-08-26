@@ -29,6 +29,9 @@ import ru.netfantazii.easynotificationview.EasyNotificationView
 abstract class AppearAnimator {
 
     private var showing = false
+    private var animator: Animator? = null
+
+    /** Function responsible for creating appear animation.*/
     protected abstract fun createAppearAnimator(
         overlay: View,
         contents: View,
@@ -47,7 +50,6 @@ abstract class AppearAnimator {
         container: EasyNotificationView
     )
 
-    /** Function responsible for creating appear animation.*/
     internal fun startAppearAnimation(
         easyNotificationView: EasyNotificationView,
         skipAnimation: Boolean,
@@ -60,31 +62,33 @@ abstract class AppearAnimator {
                 easyNotificationView
             )
 
-            val animator = createAppearAnimator(
+            animator = createAppearAnimator(
                 easyNotificationView.overlay,
                 easyNotificationView.contents,
                 easyNotificationView
             )
-            animator.addListener(object : Animator.AnimatorListener {
+            animator?.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationEnd(animation: Animator) {
                     showing = false
                     appearAnimationEndListener?.invoke(easyNotificationView)
                 }
 
                 override fun onAnimationRepeat(animation: Animator) {}
-                override fun onAnimationCancel(animation: Animator) {
-                    showing = false
-                }
+                override fun onAnimationCancel(animation: Animator) {}
 
                 override fun onAnimationStart(animation: Animator) {
                     easyNotificationView.visibility = View.VISIBLE
                     showing = true
                 }
             })
-            animator.start()
+            animator?.start()
             if (skipAnimation) {
-                animator.end()
+                animator?.end()
             }
         }
+    }
+
+    internal fun cancelAnimation() {
+        animator?.cancel()
     }
 }

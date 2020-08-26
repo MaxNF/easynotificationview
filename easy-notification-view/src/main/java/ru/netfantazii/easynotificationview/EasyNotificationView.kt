@@ -25,6 +25,7 @@ package ru.netfantazii.easynotificationview
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +43,7 @@ import ru.netfantazii.easynotificationview.animation.base.DisappearAnimator
 import ru.netfantazii.easynotificationview.animation.bottomslide.BottomSlideAppearAnimator
 import ru.netfantazii.easynotificationview.animation.bottomslide.BottomSlideDisappearAnimator
 import java.lang.IllegalArgumentException
+import java.lang.UnsupportedOperationException
 
 @SuppressLint("ViewConstructor")
 class EasyNotificationView(
@@ -83,6 +85,8 @@ class EasyNotificationView(
     internal var container: ViewGroup? = null
     internal lateinit var overlay: FrameLayout
     internal lateinit var contents: View
+
+    private var timer: CountDownTimer? = null
 
     private var button1: View? = null
     private var button2: View? = null
@@ -280,6 +284,23 @@ class EasyNotificationView(
         overrideBackButtonBehavior()
     }
 
+    /** Attaches the notification view to the specified container or to the context's root ViewGroup
+     * (if the container is not specified) and shows the notification. The notification will be
+     * automatically hidden when the time is over.*/
+    @JvmOverloads
+    fun showAutoHide(
+        timeToLiveMillis: Long,
+        containerForNotification: ViewGroup? = null,
+        skipStartingAnimation: Boolean = false,
+        skipHidingAnimation: Boolean = false
+    ) {
+        if (timeToLiveMillis <= 0) {
+            throw UnsupportedOperationException("timeToLiveMillis should be greater than zero.")
+        }
+        show(containerForNotification, skipStartingAnimation)
+        startTimer(timeToLiveMillis, skipHidingAnimation)
+    }
+
     private fun attachToContainer(containerForNotification: ViewGroup? = null) {
         container = containerForNotification ?: getContainerView()
         val params =
@@ -319,6 +340,18 @@ class EasyNotificationView(
         }
     }
 
+    private fun startTimer(timeToLiveMillis: Long, skipAnimation: Boolean) {
+        timer = object : CountDownTimer(timeToLiveMillis, timeToLiveMillis) {
+            override fun onTick(millisUntilFinished: Long) {}
+
+            override fun onFinish() {
+                hide(skipAnimation)
+            }
+
+        }
+        timer?.start()
+    }
+
     /** Hides the notification and removes it's view from the parent container at the end of the animation.*/
     @JvmOverloads
     fun hide(skipAnimation: Boolean = false) {
@@ -330,5 +363,16 @@ class EasyNotificationView(
             )
         }
         onBackPressedCallback?.remove()
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        timer?.cancel()
+        cancelAnimations()
+    }
+
+    private fun cancelAnimations() {
+        appearAnimator.cancelAnimation()
+        disappearAnimator.cancelAnimation()
     }
 }

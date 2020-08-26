@@ -28,6 +28,7 @@ import ru.netfantazii.easynotificationview.EasyNotificationView
 
 abstract class DisappearAnimator {
     private var hiding = false
+    private var animator: Animator? = null
 
     /** Function responsible for creating disappear animation.*/
     protected abstract fun createDisappearAnimator(
@@ -49,12 +50,12 @@ abstract class DisappearAnimator {
         disappearAnimationEndListener: ((easyNotificationView: EasyNotificationView) -> Unit)? = null
     ) {
         if (!hiding) {
-            val animator = createDisappearAnimator(
+            animator = createDisappearAnimator(
                 easyNotificationView.overlay,
                 easyNotificationView.contents,
                 easyNotificationView
             )
-            animator.addListener(object : Animator.AnimatorListener {
+            animator?.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationEnd(animation: Animator) {
                     easyNotificationView.visibility = View.INVISIBLE
                     hiding = false
@@ -64,19 +65,15 @@ abstract class DisappearAnimator {
                 }
 
                 override fun onAnimationRepeat(animation: Animator) {}
-                override fun onAnimationCancel(animation: Animator) {
-                    hiding = false
-                    resetNotificationState(easyNotificationView)
-                    removeViewFromContainer(easyNotificationView)
-                }
+                override fun onAnimationCancel(animation: Animator) {}
 
                 override fun onAnimationStart(animation: Animator) {
                     hiding = true
                 }
             })
-            animator.start()
+            animator?.start()
             if (skipAnimation) {
-                animator.end()
+                animator?.end()
             }
         }
     }
@@ -91,5 +88,9 @@ abstract class DisappearAnimator {
 
     private fun removeViewFromContainer(easyNotificationView: EasyNotificationView) {
         easyNotificationView.container?.removeView(easyNotificationView)
+    }
+
+    internal fun cancelAnimation() {
+        animator?.cancel()
     }
 }
