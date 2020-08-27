@@ -24,6 +24,8 @@ package ru.netfantazii.easynotificationview.animation.base
 
 import android.animation.Animator
 import android.view.View
+import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import ru.netfantazii.easynotificationview.EasyNotificationView
 
 abstract class DisappearAnimator {
@@ -87,10 +89,12 @@ abstract class DisappearAnimator {
     }
 
     private fun removeViewFromContainer(easyNotificationView: EasyNotificationView) {
+        easyNotificationView.layoutParams = ConstraintLayout.LayoutParams(-2, -2)
         easyNotificationView.container?.removeView(easyNotificationView)
     }
 
     internal fun cancelAnimation() {
+        animator?.removeAllListeners()
         animator?.cancel()
     }
 }

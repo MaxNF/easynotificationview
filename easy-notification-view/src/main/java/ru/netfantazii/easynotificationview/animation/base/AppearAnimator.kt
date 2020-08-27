@@ -89,6 +89,7 @@ abstract class AppearAnimator {
     }
 
     internal fun cancelAnimation() {
+        animator?.removeAllListeners()
         animator?.cancel()
     }
 }

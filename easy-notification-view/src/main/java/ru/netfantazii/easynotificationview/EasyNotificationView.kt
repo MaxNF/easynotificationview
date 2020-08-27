@@ -37,7 +37,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.OnLifecycleEvent
 import ru.netfantazii.easynotificationview.animation.base.AppearAnimator
 import ru.netfantazii.easynotificationview.animation.base.DisappearAnimator
 import ru.netfantazii.easynotificationview.animation.bottomslide.BottomSlideAppearAnimator
@@ -47,23 +50,38 @@ import java.lang.UnsupportedOperationException
 
 @SuppressLint("ViewConstructor")
 class EasyNotificationView(
-    context: Context,
+    private val activity: Activity,
     @LayoutRes private val contentsLayout: Int,
     @ColorInt private val overlayColor: Int,
     private val appearAnimator: AppearAnimator,
     private val disappearAnimator: DisappearAnimator
-) : ConstraintLayout(context) {
+) : ConstraintLayout(activity) {
+    constructor(
+        fragment: Fragment,
+        @LayoutRes contentsLayout: Int,
+        @ColorInt overlayColor: Int,
+        appearAnimator: AppearAnimator,
+        disappearAnimator: DisappearAnimator
+    ) : this(
+        fragment.requireActivity(),
+        contentsLayout,
+        overlayColor,
+        appearAnimator,
+        disappearAnimator
+    ) {
+        this.fragment = fragment
+        fragment.viewLifecycleOwner.lifecycle.addObserver(fragmentViewLifecycleObserver)
+    }
+
     companion object {
         @JvmOverloads
                 /** Creates EasyNotificationView instance.
-                 * @param context Do not use application context if you are not going to explicitly specify
-                 * root view in EasyNotificationView.show() method. In this case use activity of fragment
-                 * context.
+                 * @param activity activity where you are going to show the notification
                  * @param overlayColor color of the background overlay view. Default is black with 70% opacity.
                  * @param appearAnimator animator which is capable of creating appear animation.
                  * @param disappearAnimator animator which is capable of creating disappear animation.*/
         fun create(
-            context: Context,
+            activity: Activity,
             @LayoutRes layoutResId: Int,
             @ColorInt overlayColor: Int? = null,
             appearAnimator: AppearAnimator? = null,
@@ -71,14 +89,53 @@ class EasyNotificationView(
         ): EasyNotificationView {
             val easyNotificationView =
                 EasyNotificationView(
-                    context,
+                    activity,
                     layoutResId,
-                    overlayColor ?: ContextCompat.getColor(context, R.color.overlay_color),
+                    overlayColor ?: ContextCompat.getColor(activity, R.color.overlay_color),
                     appearAnimator ?: BottomSlideAppearAnimator(),
                     disappearAnimator ?: BottomSlideDisappearAnimator()
                 )
             easyNotificationView.id = R.id.easy_notification_view
             return easyNotificationView
+        }
+
+        /** Creates EasyNotificationView instance.
+         * @param fragment fragment where you are going to show the notification
+         * @param overlayColor color of the background overlay view. Default is black with 70% opacity.
+         * @param appearAnimator animator which is capable of creating appear animation.
+         * @param disappearAnimator animator which is capable of creating disappear animation.*/
+        fun create(
+            fragment: Fragment,
+            @LayoutRes layoutResId: Int,
+            @ColorInt overlayColor: Int? = null,
+            appearAnimator: AppearAnimator? = null,
+            disappearAnimator: DisappearAnimator? = null
+        ): EasyNotificationView {
+            if (fragment.activity == null) {
+                throw IllegalArgumentException("The fragment is not attached to an activity.")
+            }
+            val easyNotificationView =
+                EasyNotificationView(
+                    fragment,
+                    layoutResId,
+                    overlayColor ?: ContextCompat.getColor(
+                        fragment.requireContext(),
+                        R.color.overlay_color
+                    ),
+                    appearAnimator ?: BottomSlideAppearAnimator(),
+                    disappearAnimator ?: BottomSlideDisappearAnimator()
+                )
+            easyNotificationView.id = R.id.easy_notification_view
+            return easyNotificationView
+        }
+    }
+
+    private var fragment: Fragment? = null
+    private val fragmentViewLifecycleObserver = object : LifecycleObserver {
+        @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+        fun removeNotification() {
+            container?.removeView(this@EasyNotificationView)
+            fragment?.viewLifecycleOwner?.lifecycle?.removeObserver(this)
         }
     }
 
@@ -302,41 +359,36 @@ class EasyNotificationView(
     }
 
     private fun attachToContainer(containerForNotification: ViewGroup? = null) {
-        container = containerForNotification ?: getContainerView()
-        val params =
-            ViewGroup.LayoutParams(
-                LayoutParams.MATCH_PARENT,
-                LayoutParams.MATCH_PARENT
-            )
-        container?.addView(this, params)
+        container = containerForNotification ?: getRootContainerView()
+        container?.let {
+            val params =
+                ViewGroup.LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.MATCH_PARENT
+                )
+            it.addView(this, params)
+            return
+        }
+        throw IllegalArgumentException("Failed to identify the container view. Try to specify it explicitly in the show() method.")
     }
 
-    private fun getContainerView(): ViewGroup =
-        getActivityFromContext().findViewById(android.R.id.content)
+    private fun getRootContainerView(): ViewGroup? {
+        val view = fragment?.view ?: activity.findViewById<ViewGroup>(android.R.id.content)
+        return view as? ViewGroup
+    }
 
     private fun overrideBackButtonBehavior() {
-        val activity = getActivityFromContext()
-        val attachedContext = context
-        onBackPressedCallback?.let { callback ->
-            if (activity is AppCompatActivity) {
-                if (attachedContext is LifecycleOwner) {
-                    activity.onBackPressedDispatcher.addCallback(attachedContext, callback)
+        val appCompatActivity: AppCompatActivity? = activity as? AppCompatActivity
+        appCompatActivity?.let {
+            val lifecycleOwner: LifecycleOwner? =
+                fragment?.viewLifecycleOwner ?: (activity as? LifecycleOwner)
+            onBackPressedCallback?.let { callback ->
+                if (lifecycleOwner != null) {
+                    it.onBackPressedDispatcher.addCallback(lifecycleOwner, callback)
                 } else {
-                    activity.onBackPressedDispatcher.addCallback(callback)
+                    it.onBackPressedDispatcher.addCallback(callback)
                 }
             }
-        }
-    }
-
-    private fun getActivityFromContext(): Activity {
-        return when (val attachedContext = context) {
-            is Fragment -> {
-                attachedContext.requireActivity()
-            }
-            is Activity -> {
-                attachedContext
-            }
-            else -> throw IllegalArgumentException("Please specify the container view or provide EasyNotification.create() method with a valid context (should be either a Fragment or an Activity)")
         }
     }
 
@@ -347,7 +399,6 @@ class EasyNotificationView(
             override fun onFinish() {
                 hide(skipAnimation)
             }
-
         }
         timer?.start()
     }
@@ -369,6 +420,14 @@ class EasyNotificationView(
         super.onDetachedFromWindow()
         timer?.cancel()
         cancelAnimations()
+        removeViewLifecycleOwnerFromTheFragment()
+        onBackPressedCallback?.remove()
+        fragment = null
+        container = null
+    }
+
+    private fun removeViewLifecycleOwnerFromTheFragment() {
+        fragment?.viewLifecycleOwner?.lifecycle?.removeObserver(fragmentViewLifecycleObserver)
     }
 
     private fun cancelAnimations() {

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
+    android:focusable="true"
+    tools:context=".FirstFragment">
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:focusable="true"/>
+
+    <Button
+        android:id="@+id/show_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SHOW IN FRAGMENT"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/show_no_anime_button"
+        app:layout_constraintRight_toLeftOf="@id/check_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/show_no_anime_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SHOW IN ACTIVITY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/show_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/check_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CHECK"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/show_button"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/show_auto_hide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SHOW AUTO HIDE"
+        app:layout_constraintLeft_toLeftOf="@id/show_no_anime_button"
+        app:layout_constraintTop_toBottomOf="@id/show_no_anime_button" />
+
+    <Button
+        android:id="@+id/show_default_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SHOW TEST"
+        app:layout_constraintLeft_toRightOf="@id/show_auto_hide"
+        app:layout_constraintTop_toBottomOf="@id/show_no_anime_button" />
+
+    <Button
+        android:id="@+id/hide_default_views"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HIDE TEST"
+        app:layout_constraintLeft_toRightOf="@id/show_default_view"
+        app:layout_constraintTop_toBottomOf="@id/show_no_anime_button" />
+
+    <Button
+        android:id="@+id/go_to_second_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="OPEN ACTIVITY"
+        app:layout_constraintEnd_toStartOf="@id/go_to_second_fragment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/go_to_second_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="OPEN FRAGMENT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/go_to_second_activity"
+        app:layout_constraintTop_toTopOf="parent"
+        android:focusable="true"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
