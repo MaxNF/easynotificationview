@@ -12,7 +12,7 @@ In this case you will see smth like this:
 ### Adding to the project
 Add to the dependencies section:
 ```
-implementation 'com.netfantazii:EasyNotificationView:0.1'
+implementation 'com.netfantazii:EasyNotificationView:0.5'
 ```
 Make sure, that the project's build.gradle file has the following repositoriy specified (it is included in new android studio projects by default):
 ```
