@@ -35,9 +35,7 @@ You can easily create your animation and animate any parameters you want. Just i
 You can see the example in created animations.
 
 ### Changing the default container for the notification.
-By default, the container used for the notification is the root view of the context, which is passed in the create function. In this case, you must pass either fragment or activity context, not the application one, because the application context doesn't have an associated layout with it.
-If you want to change this behavior, you can pass a container to the show() function. Doing this you are no more restricted in using activity or fragment context and can use the
-application one.
+By default, the container used for the notification is the root view of the activity (android.R.layout.content) or the root of the fragment (which is returned from onCreateView()). If you want to change this behavior, you can pass a container to the show() function explicitly.
 ```kotlin
         val container = findViewById<FrameLayout>(R.id.container)
         EasyNotificationView.create(this, R.layout.layout_for_notification).show(container)
@@ -83,7 +81,7 @@ Just pass the color as the third argument and apply the onOverlayClickListener.
             }
         }.show()
 ```
-By default, the overlay swallows all clicks, but you can make it to propagate them to the underlying views. To do that, define isOverlayClickable property as 'false' and to not
+By default, the overlay swallows all clicks, but you can make it to propagate them to the underlying views. To do that, define isOverlayClickable property as 'false' and do not
 apply any listeners to the overlay.
 ```kotlin
         EasyNotificationView.create(this, R.layout.layout_for_notification).apply {
@@ -96,5 +94,31 @@ Passing the transparent color and disabling overlay clickability will make the o
             isOverlayClickable = false
         }.show()
 ```
+### Showing auto-closing notification with a timer
+Invoke showAutoHide() method and pass time in milliseconds as an argument (it defines how much time the notification will stay on the screen before starting disappearing animation)
+```kotlin
+        EasyNotificationView.create(this, R.layout.layout_for_notification, Color.TRANSPARENT).apply {
+                isOverlayClickable = false
+            }.showAutoHide(1000)
+```
+
+### Overriding back button behavior
+By default, the back button is overriden while the notification is on the screen. It will hide() the notification. If you want to disable it or change the behavior, use setOnBackPressAction() method.
+```kotlin
+        EasyNotificationView.create(this, R.layout.layout_for_notification, Color.TRANSPARENT)
+            .apply {
+                isOverlayClickable = false
+                setOnBackPressAction { /*your code*/ }
+            }.show()
+```
+Or
+```kotlin
+        EasyNotificationView.create(this, R.layout.layout_for_notification, Color.TRANSPARENT)
+            .apply {
+                isOverlayClickable = false
+                setOnBackPressAction(null)
+            }.show()
+```
+
 ### Under the hood behavior
 The notification view attaches itself to the container when you call the show() method. After the disappear animation finishes, the notification view automatically detaches itself from the root view.
